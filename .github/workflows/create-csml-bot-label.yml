@@ -1,0 +1,20 @@
+name: Create a CSML bot label when pushing a tag
+'on':
+  push:
+    tags:
+      - '''*'''
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    container:
+      image: node:12.4-alpine
+    steps:
+      - uses: actions/checkout@v2
+      - name: CSML - Syncronize your repository with a bot on csml studio
+        uses: CSML-by-Clevy/csml-bot-sync-action@v1
+        with:
+          create_label: true
+        env:
+          CSML_CLIENT_URL: https://clients.csml.dev/v1
+          CSML_CLIENT_API_KEY: ${{ secrets.CSML_CLIENT_API_KEY }}
+          CSML_CLIENT_API_SECRET: ${{ secrets.CSML_CLIENT_API_SECRET }}
